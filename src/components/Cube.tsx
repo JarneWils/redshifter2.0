@@ -1,4 +1,4 @@
-import { useBox } from "@react-three/cannon"
+import { RigidBody } from "@react-three/rapier"
 import { useLoader } from "@react-three/fiber"
 import * as THREE from "three"
 
@@ -7,23 +7,16 @@ type CubeProps = {
 	texture: string
 }
 
-export default function Cube({ position: [x, y, z], texture }: CubeProps) {
-	const [ref] = useBox(() => ({
-		type: "Static",
-		position: [x, y, z],
-	}))
-
-	// Laad de textuur
+export default function Cube({ position, texture }: CubeProps) {
 	const colorMap = useLoader(THREE.TextureLoader, `/images/${texture}.jpg`)
 	colorMap.magFilter = THREE.NearestFilter
 
 	return (
-		<mesh ref={ref}
-		castShadow
-		receiveShadow
-		>
-			<boxGeometry />
-			<meshStandardMaterial map={colorMap} />
-		</mesh>
+		<RigidBody type="fixed" position={position}>
+			<mesh castShadow receiveShadow>
+				<boxGeometry />
+				<meshStandardMaterial map={colorMap} />
+			</mesh>
+		</RigidBody>
 	)
 }

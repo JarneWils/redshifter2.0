@@ -1,73 +1,54 @@
+import { CapsuleCollider, RigidBody, RigidBodyApi } from "@react-three/rapier"
 import { useFrame, useThree } from "@react-three/fiber"
-import { useSphere } from "@react-three/cannon"
-import { useEffect, useRef } from "react"
 import * as THREE from "three"
+import { useRef, useState } from "react"
 import useKeyboard from "./hooks/useKeyboard"
 
-const SPEED = 4
-const JUMP_FORCE = 5
+const SPEED = 5
+const JUMP_FORCE = 6
 
 export default function Player() {
-	const {moveForward, moveBackward, moveLeft, moveRight, jump} = useKeyboard()
-
-	const {camera} = useThree()
-	const [refSphere, api] = useSphere(() => ({
-		mass: 1,
-		type: "Dynamic",
-		position: [0, 3, 0],
-		args: [0.5], // radius van de bol
-	}))
-	
-	useFrame(() => {
-		camera.position.copy(new THREE.Vector3(
-			pos.current[0],
-			pos.current[1] + 1, // camera flink boven de bol
-			pos.current[2]
-		))
-	})
-
-	const vel = useRef([0, 0, 0])
-	useEffect(() => {
-		api.velocity.subscribe((v) => {
-			vel.current = v
-		})
-	}, [api.velocity])
-
-	const pos = useRef([0, 0, 0])
-	useEffect(() => {
-		api.position.subscribe((p) => {
-			pos.current = p
-		})
-	}, [api.position])
+	const { camera } = useThree()
+	const { moveForward, moveBackward, moveLeft, moveRight, jump } = useKeyboard()
+	const bodyRef = useRef<RigidBodyApi>(null!)
+	const [canJump, setCanJump] = useState(true)
 
 	useFrame(() => {
-		camera.position.copy(new THREE.Vector3(pos.current[0], pos.current[1], pos.current[2]))
+		const body = bodyRef.current
+		if (!body) return
+
+		const linvel = body.linvel()
+
 		const direction = new THREE.Vector3()
-		const frontVector = new THREE.Vector3(
-			0,
-			0,
-			(moveBackward ? 1 : 0) - (moveForward ? 1 : 0)
-		)
-		const sideVector = new THREE.Vector3(
-			(moveLeft ? 1 : 0) - (moveRight ? 1 : 0),
-			0,
-			0,
-		)
-		direction.subVectors(frontVector, sideVector)
-		.normalize()
-		.multiplyScalar(SPEED)
-		.applyEuler(camera.rotation)
+		const front = new THREE.Vector3(0, 0, (moveBackward ? 1 : 0) - (moveForward ? 1 : 0))
+		const side = new THREE.Vector3((moveRight ? 1 : 0) - (moveLeft ? 1 : 0), 0, 0)
 
-		api.velocity.set(direction.x, vel.current[1], direction.z)
+		direction.addVectors(front, side)
+			.normalize()
+			.applyEuler(camera.rotation)
+			.multiplyScalar(SPEED)
 
-		if(jump && Math.abs(vel.current[1]) < 0.005){
-			api.velocity.set(vel.current[0], JUMP_FORCE, vel.current[2])
+		body.setLinvel({ x: direction.x, y: linvel.y, z: direction.z }, true)
+
+		if (jump && canJump && Math.abs(linvel.y) < 0.05) {
+			body.setLinvel({ x: linvel.x, y: JUMP_FORCE, z: linvel.z }, true)
+			setCanJump(false)
 		}
-		
+
+		const position = body.translation()
+		camera.position.set(position.x, position.y + 0.9, position.z)
 	})
 
 	return (
-		<mesh ref={refSphere}>
-		</mesh>
+		<RigidBody
+			ref={bodyRef}
+			colliders={false}
+			mass={1}
+			position={[0, 3, 0]}
+			lockRotations
+			onCollisionEnter={() => setCanJump(true)}
+		>
+			<CapsuleCollider args={[0.5, 0.5]} /> {/* radius, half height */}
+		</RigidBody>
 	)
 }

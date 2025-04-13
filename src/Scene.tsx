@@ -1,4 +1,4 @@
-import { Physics } from "@react-three/cannon";
+import { Physics } from "@react-three/rapier";
 // import { Sky } from "@react-three/drei";
 import Ground from "./components/Ground";
 import Player from "./components/Player";

@@ -1,4 +1,3 @@
-import { Physics } from "@react-three/rapier";
 // import { Sky } from "@react-three/drei";
 import Ground from "./components/Ground";
 import Player from "./components/Player";
@@ -14,12 +13,10 @@ export default function Scene() {
 
 			<ambientLight intensity={1} />
 			<directionalLight position={[200, 100, -200]} intensity={1} castShadow/>
-			<Physics gravity={[0, -15, 0]}>
-				<FPV />
-				<Player />
-				<Cubes />
-				<Ground />
-			</Physics>
+			<FPV />
+			<Player />
+			<Cubes />
+			<Ground />
 		</>
 	)
 }

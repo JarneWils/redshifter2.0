@@ -17,22 +17,22 @@ export const useStore = create<State>((set) => ({
 
 	cubes:[{
 			key: nanoid(),
-			pos: [-1,0,0],
+			pos: [-1,0,-2],
 			texture: 'grass-side',
 		},
 		{
 			key: nanoid(),
-			pos: [0,0,0],
+			pos: [0,1,-2],
 			texture: 'dirtBlock',
 		},
 		{
 			key: nanoid(),
-			pos: [1,0,0],
+			pos: [1,2,-2],
 			texture: 'amoBlock',
 		},
 		{
 			key: nanoid(),
-			pos: [2,0,0],
+			pos: [2,3,-2],
 			texture: 'healtBlock',
 		}
 	],

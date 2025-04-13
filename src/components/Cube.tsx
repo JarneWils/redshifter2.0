@@ -1,4 +1,3 @@
-import { RigidBody } from "@react-three/rapier"
 import { useLoader } from "@react-three/fiber"
 import * as THREE from "three"
 
@@ -12,11 +11,9 @@ export default function Cube({ position, texture }: CubeProps) {
 	colorMap.magFilter = THREE.NearestFilter
 
 	return (
-		<RigidBody type="fixed" position={position}>
-			<mesh castShadow receiveShadow>
-				<boxGeometry />
-				<meshStandardMaterial map={colorMap} />
-			</mesh>
-		</RigidBody>
+		<mesh castShadow receiveShadow position={position}>
+			<boxGeometry />
+			<meshStandardMaterial map={colorMap} />
+		</mesh>
 	)
 }

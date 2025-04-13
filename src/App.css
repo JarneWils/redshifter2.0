@@ -1,0 +1,18 @@
+:root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+.cursor {
+  position: fixed;
+  top: 48vh;
+  left: 48vw;
+  z-index: 2;
+  font-size: 2vw;
+  font-weight: extra-bold;
+  color: difference;
+  pointer-events: none;
+}

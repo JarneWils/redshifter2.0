@@ -13,6 +13,7 @@ function App() {
       </div>
 
       <Canvas
+        shadows={true}
         style={{
           height: '100vh',
           width: '100vw',
@@ -22,7 +23,6 @@ function App() {
           overflow:'hidden',
           zIndex: 1}}
       >
-
         <Scene />
 
       </Canvas>

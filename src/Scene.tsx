@@ -11,8 +11,30 @@ export default function Scene() {
 			<color attach="background" args={["rgb(10,25,50)"]} />
 			<fog attach="fog" args={["rgb(10,25,50)", 5, 40]} />
 
-			<ambientLight intensity={1} />
-			<directionalLight position={[200, 100, -200]} intensity={1} castShadow/>
+			<ambientLight intensity={0.7} />
+			<directionalLight
+				position={[0, 150, 0]}
+				intensity={0.5}
+				shadow-mapSize={[512, 512]}
+				shadow-camera-near={1}
+				shadow-camera-far={200}
+				shadow-camera-left={-50}
+				shadow-camera-right={50}
+				shadow-camera-top={50}
+				shadow-camera-bottom={-50}
+			/>
+			<directionalLight
+				position={[100, 100, 100]}
+				intensity={0.8}
+				castShadow
+				shadow-mapSize={[512, 512]}
+				shadow-camera-near={1}
+				shadow-camera-far={200}
+				shadow-camera-left={-50}
+				shadow-camera-right={50}
+				shadow-camera-top={50}
+				shadow-camera-bottom={-50}
+			/>
 			<FPV />
 			<Player />
 			<Cubes />

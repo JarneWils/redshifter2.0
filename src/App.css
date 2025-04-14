@@ -8,11 +8,12 @@
 
 .cursor {
   position: fixed;
-  top: 48vh;
-  left: 48vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2;
   font-size: 2vw;
-  font-weight: extra-bold;
-  color: difference;
+  font-weight: 800; /* 'extra-bold' bestaat niet in CSS */
+  color: #fff; /* 'difference' is geen geldige kleurwaarde */
   pointer-events: none;
 }

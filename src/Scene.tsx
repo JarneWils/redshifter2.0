@@ -1,5 +1,5 @@
 // import { Sky } from "@react-three/drei";
-import Ground from "./components/Ground";
+// import Ground from "./components/Ground";
 import Player from "./components/Player";
 import FPV from "./components/FPV";
 import Cubes from "./components/Cubes";
@@ -38,7 +38,7 @@ export default function Scene() {
 			<FPV />
 			<Player />
 			<Cubes />
-			<Ground />
+			{/* <Ground /> */}
 		</>
 	)
 }

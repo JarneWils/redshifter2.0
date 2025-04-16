@@ -1,10 +1,9 @@
-// useStore.ts (let op: niet .tsx als er geen JSX in zit!)
 import { create } from "zustand"
 import { nanoid } from "nanoid"
 
 type Cube = {
 	key: string
-	pos: [number, number, number]
+	pos: [number, number, number] // Tuple van exact 3 getallen
 	texture: string
 }
 
@@ -19,7 +18,13 @@ type State = {
 export const useStore = create<State>((set) => ({
 	
 	texture: 'grass-side',
-	cubes: [],
+	cubes: Array.from({ length: 30 }, (_, y) =>
+		Array.from({ length: 30 }, (_, x) => ({
+			key: nanoid(),
+			pos: [x - 15, -1, y - 15] as [number, number, number], // Zorg ervoor dat pos altijd een tuple is
+			texture: 'grass-top',
+		}))
+	).flat(),
 
 	addCube: (x, y, z) => {
 		set((prev) => ({
@@ -27,7 +32,7 @@ export const useStore = create<State>((set) => ({
 				...prev.cubes,
 				{
 					key: nanoid(),
-					pos: [x, y, z],
+					pos: [x, y, z] as [number, number, number], // Tuple van 3 getallen
 					texture: prev.texture,
 				},
 			],

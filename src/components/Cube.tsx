@@ -45,6 +45,7 @@ export default function Cube({ position, texture }: CubeProps) {
 				addCube(x, y, z - 1)
 			}
 		}}
+
 		castShadow
 		receiveShadow
 		position={position}
